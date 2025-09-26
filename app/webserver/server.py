@@ -1,5 +1,6 @@
 import fastapi
 from contextlib import asynccontextmanager
+from starlette.staticfiles import StaticFiles
 
 
 __all__ = ("create_app",)
@@ -23,8 +24,16 @@ def create_app(
     routers: list[fastapi.APIRouter],
 ) -> fastapi.FastAPI:
     app = fastapi.FastAPI(lifespan=lifespan)
+
+    # app variables - container and misc data
     app.container = app_container
     app.execute_migrations = execute_migrations
+
+    # route wiring
     for router in routers:
         app.include_router(router)
+
+    # static wiring
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+
     return app

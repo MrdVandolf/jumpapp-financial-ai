@@ -5,6 +5,48 @@
 <hr>
 <h2>Description: WIP</h2>
 <hr>
+<h2>Environment</h2>
+
+<ul>
+<li>
+<p><strong>APP_HOST: string</strong></p>
+<p>Default value: localhost</p>
+<p>FastAPI application host (backend host)</p>
+</li>
+<li>
+<p><strong>APP_PORT: integer</strong></p>
+<p>Default value: 8080</p>
+<p>FastAPI application port (backend port)</p>
+</li>
+<li>
+<p><strong>POSTGRES_USER: string</strong></p>
+<p>Default value: postgres</p>
+<p>PostgreSQL user for backend</p>
+</li>
+<li>
+<p><strong>POSTGRES_PASSWORD: string</strong></p>
+<p>Default value: password</p>
+<p>PostgreSQL password for backend</p>
+</li>
+<li>
+<p><strong>POSTGRES_HOST: string</strong></p>
+<p>Default value: localhost</p>
+<p>PostgreSQL host for backend</p>
+</li>
+<li>
+<p><strong>POSTGRES_PORT: integer</strong></p>
+<p>Default value: 5432</p>
+<p>PostgreSQL port for backend</p>
+</li>
+<li>
+<p><strong>POSTGRES_DB: string</strong></p>
+<p>Default value: database</p>
+<p>PostgreSQL database name. If no database with this name is found, a new one will be created</p>
+</li>
+</ul>
+
+
+<hr>
 <h2>Components</h2>
 <hr>
 <h3>Frontend</h3>

@@ -2,6 +2,25 @@
 
 {% block title %}Login{% endblock %}
 
+{% block additional_style %}
+<link rel="stylesheet" href="{{ url_for('static', path='/css/login.css') }}">
+{% endblock %}
+
 {% block content %}
-<h1>Hi!</h1>
+<div class="main_container container">
+    <form action="/auth" method="post" id="loginForm">
+        <div class="container">
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter email" name="email" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="password" required>
+
+            <button type="submit">Login</button>
+
+            <span class="password"><a href="#">Forgot password?</a></span>
+          </div>
+
+    </form>
+</div>
 {% endblock %}

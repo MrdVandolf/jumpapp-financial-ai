@@ -1,0 +1,9 @@
+.main_container {
+  max-width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+}

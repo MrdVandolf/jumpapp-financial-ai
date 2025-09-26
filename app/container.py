@@ -2,6 +2,7 @@ from fastapi.templating import Jinja2Templates
 from dependency_injector import containers, providers
 
 from app.database.container import PostgresContainer
+from app.migrations.container import MigrationsContainer
 
 
 __all__ = ("AppContainer",)
@@ -16,4 +17,9 @@ class AppContainer(containers.DeclarativeContainer):
     postgres_container = providers.Container(
         PostgresContainer,
         config=config,
+    )
+
+    migrations_container = providers.Container(
+        MigrationsContainer,
+        postgres_container=postgres_container,
     )

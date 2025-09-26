@@ -18,6 +18,7 @@ from app.constants import (
 def start(
     env: str|None = None,
     log_level: str|None = None,
+    execute_migrations: bool = False,
 ):
     # Windows aiopg workaround
     if sys.version_info >= (3, 8) and sys.platform.lower().startswith("win"):
@@ -45,7 +46,8 @@ def start(
     app_container = AppContainer(config=config)
     app_container.wire()
 
-    app = create_app(config, app_container)
+    # create app, execute database migrations etc
+    app = create_app(config, app_container, execute_migrations)
     uvicorn.run(app, host=config["APP_HOST"], port=config["APP_PORT"])
 
 
@@ -54,10 +56,11 @@ if __name__ == "__main__":
 
     parser.add_argument('--env', help="Path to .env file", default=None)
     parser.add_argument('--log-level', help="Logging level", default=None)
-    # parser.add_argument('--perform-migrations', action='store_true', default=False)
+    parser.add_argument('--execute-migrations', help="Execute database migrations or ignore them", action='store_true', default=False)
     args = parser.parse_args()
 
     start(
         env=args.env,
         log_level=args.log_level,
+        execute_migrations=args.execute_migrations,
     )

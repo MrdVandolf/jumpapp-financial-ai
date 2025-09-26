@@ -1,26 +1,44 @@
 import logging
+from logging.config import dictConfig
 from dotenv import dotenv_values
 
 
 __all__ = ("load_config", "load_logger")
 
 
-LOG_FORMATTER = logging.Formatter('[%(asctime)s][%(levelname)s] - %(message)s')
-
-
 def load_logger(log_level: int, log_file: str):
-    logger = logging.getLogger()
-    logger.setLevel(log_level)
-
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(log_level)
-
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setLevel(log_level)
-
-    for handler in (console_handler, file_handler):
-        handler.setFormatter(LOG_FORMATTER)
-        logger.addHandler(handler)
+    return dictConfig(
+        {
+            'version': 1,
+            'disable_existing_loggers': False,
+            'formatters': {
+                'default': {
+                    'format': '[%(asctime)s][%(levelname)s] - %(message)s',
+                }
+            },
+            'handlers': {
+                'file': {
+                    'class': 'logging.FileHandler',
+                    'formatter': 'default',
+                    'filename': log_file,
+                    'encoding': 'utf-8',
+                },
+                'console': {
+                    'class': 'logging.StreamHandler',
+                    'formatter': 'default',
+                }
+            },
+            'loggers': {
+                'uvicorn': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': False},
+                'uvicorn.error': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': False},
+                'uvicorn.access': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': False},
+            },
+            'root': {
+                'handlers': ['file', 'console'],
+                'level': log_level,
+            }
+        }
+    )
 
 
 def load_config(config):

@@ -38,7 +38,7 @@ def start(
         log_level = DEFAULT_LOGGER_LEVEL
     else:
         log_level = LOGGER_LEVELS.get(log_level.lower()) or DEFAULT_LOGGER_LEVEL
-    load_logger(
+    logging_config = load_logger(
         log_file=DEFAULT_LOGGER_FILE,
         log_level=log_level,
     )
@@ -54,7 +54,7 @@ def start(
         execute_migrations=execute_migrations,
         routers=Routers,
     )
-    uvicorn.run(app, host=config["APP_HOST"], port=config["APP_PORT"])
+    uvicorn.run(app, host=config["APP_HOST"], port=config["APP_PORT"], log_config=logging_config)
 
 
 if __name__ == "__main__":

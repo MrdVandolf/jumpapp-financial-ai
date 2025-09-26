@@ -1,8 +1,11 @@
 import uvicorn
 import argparse
 import logging
+import sys
+import asyncio
 
 from app.loader import load_config, load_logger
+from app.container import AppContainer
 from app.webserver import create_app
 from app.constants import (
     DEFAULT_CONFIG_PATH,
@@ -16,6 +19,10 @@ def start(
     env: str|None = None,
     log_level: str|None = None,
 ):
+    # Windows aiopg workaround
+    if sys.version_info >= (3, 8) and sys.platform.lower().startswith("win"):
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
     # Read config
     if not env:
         env = DEFAULT_CONFIG_PATH
@@ -34,7 +41,11 @@ def start(
         log_level=log_level,
     )
 
-    app = create_app(config)
+    # init container
+    app_container = AppContainer(config=config)
+    app_container.wire()
+
+    app = create_app(config, app_container)
     uvicorn.run(app, host=config["APP_HOST"], port=config["APP_PORT"])
 
 

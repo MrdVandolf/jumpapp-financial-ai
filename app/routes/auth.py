@@ -14,7 +14,7 @@ AuthRouter = APIRouter(tags=["auth"], prefix="/auth")
     response_model=AuthResponse,
 )
 async def main(body: AuthRequest, request: Request, response: Response):
-    if body.email != "dasipos@gmail.com":
+    if body.email != "anisimov.dmitrii.e@gmail.com":
         response.status_code = 404
         return {"success": False, "message": "No user is registered under this email"}
     elif body.password != "123":

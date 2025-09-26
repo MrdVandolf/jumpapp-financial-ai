@@ -8,7 +8,7 @@ MIGRATIONS = (
     """create table if not exists users (
        id serial primary key, 
        email text not null,
-       password text not null,
+       hash text not null,
        salt text not null,
        hubspot text
     );""",

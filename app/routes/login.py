@@ -14,4 +14,4 @@ LoginRouter = APIRouter(tags=["login"], prefix="/login")
 async def main(request: Request):
     app_container = request.app.container
     templates = app_container.templates()
-    return templates.TemplateResponse("login.html", context={"request": request})
+    return templates.TemplateResponse("pages/login.html", context={"request": request})

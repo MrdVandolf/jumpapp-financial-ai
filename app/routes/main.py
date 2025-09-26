@@ -14,4 +14,4 @@ MainRouter = APIRouter(tags=["main"])
 async def main(request: Request):
     app_container = request.app.container
     templates = app_container.templates()
-    return templates.TemplateResponse("index.html", context={"request": request})
+    return templates.TemplateResponse("pages/main.html", context={"request": request})

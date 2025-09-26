@@ -16,8 +16,15 @@ async def lifespan(app):
     yield
 
 
-def create_app(config, app_container, execute_migrations: bool) -> fastapi.FastAPI:
+def create_app(
+    config,
+    app_container,
+    execute_migrations: bool,
+    routers: list[fastapi.APIRouter],
+) -> fastapi.FastAPI:
     app = fastapi.FastAPI(lifespan=lifespan)
     app.container = app_container
     app.execute_migrations = execute_migrations
+    for router in routers:
+        app.include_router(router)
     return app

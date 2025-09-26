@@ -7,6 +7,7 @@ import asyncio
 from app.loader import load_config, load_logger
 from app.container import AppContainer
 from app.webserver import create_app
+from app.routes import Routers
 from app.constants import (
     DEFAULT_CONFIG_PATH,
     DEFAULT_LOGGER_FILE,
@@ -47,7 +48,12 @@ def start(
     app_container.wire()
 
     # create app, execute database migrations etc
-    app = create_app(config, app_container, execute_migrations)
+    app = create_app(
+        config=config,
+        app_container=app_container,
+        execute_migrations=execute_migrations,
+        routers=Routers,
+    )
     uvicorn.run(app, host=config["APP_HOST"], port=config["APP_PORT"])
 
 

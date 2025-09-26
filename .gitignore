@@ -1,6 +1,7 @@
 .env
 env/
 .idea
+logs/
 __pycache__/
 poetry.lock
 poetry.toml

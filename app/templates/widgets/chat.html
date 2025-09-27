@@ -12,7 +12,7 @@
 {% endmacro %}
 
 {% macro display_current_chat(messages) %}
-<div class="messages">
+<div class="messages" id="messages">
   {% for message in messages %}
     {% if message.sender == "ai" %}
       <div class="message-left">{{ message.content }}</div>

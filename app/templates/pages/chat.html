@@ -34,7 +34,12 @@
 
   async function sendMessage() {
     const input_field = document.getElementById("message-content");
-    const payload = JSON.stringify({content: input_field.value});
+    const text_data = input_field.value;
+    if (!text_data) {
+        return;
+    };
+    input_field.value = "";
+    const payload = JSON.stringify({content: text_data});
     try {
         const response = await fetch('/message/send', {
             method: 'POST',
@@ -46,7 +51,8 @@
             window.location.href = data.redirect_to;
             return;
         } else {
-          window.location.reload();
+          createMessage(text_data, "message-right");
+
         }
 
     } catch (err) {

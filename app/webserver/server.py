@@ -2,6 +2,9 @@ import fastapi
 from contextlib import asynccontextmanager
 from starlette.staticfiles import StaticFiles
 
+from app.routes import Routers
+from app.middlewares import Middlewares
+
 
 __all__ = ("create_app",)
 
@@ -21,7 +24,6 @@ def create_app(
     config,
     app_container,
     execute_migrations: bool,
-    routers: list[fastapi.APIRouter],
 ) -> fastapi.FastAPI:
     app = fastapi.FastAPI(lifespan=lifespan)
 
@@ -29,8 +31,12 @@ def create_app(
     app.container = app_container
     app.execute_migrations = execute_migrations
 
+    # middleware wiring
+    for middleware in Middlewares:
+        app.add_middleware(middleware)
+
     # route wiring
-    for router in routers:
+    for router in Routers:
         app.include_router(router)
 
     # static wiring

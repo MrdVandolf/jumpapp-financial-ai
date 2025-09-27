@@ -8,7 +8,7 @@ LoginRouter = APIRouter(tags=["login"], prefix="/login")
 
 
 @LoginRouter.get(
-    '/',
+    '',
     status_code=200,
 )
 async def main(request: Request):

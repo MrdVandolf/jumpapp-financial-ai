@@ -1,7 +1,24 @@
 {% macro chat_list(chats) %}
   <div class="chat-list">
     {% for chat in chats %}
-      <p>{{ chat.name }}</p>
+      <button onclick="openChat({{ chat.id }})">{{ chat.name }}</button>
     {% endfor %}
   </div>
+  <script>
+    function openChat(chatId) {
+      window.location.href = `/chat/${chatId}`;
+    }
+  </script>
+{% endmacro %}
+
+{% macro display_current_chat(messages) %}
+<div class="messages">
+  {% for message in messages %}
+    {% if message.sender == "ai" %}
+      <div class="message-left">{{ message.content }}</div>
+    {% else %}
+      <div class="message-right">{{ message.content }}</div>
+    {% endif %}
+  {% endfor %}
+</div>
 {% endmacro %}

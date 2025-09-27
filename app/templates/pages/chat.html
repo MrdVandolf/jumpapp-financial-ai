@@ -1,5 +1,5 @@
 {% extends "index.html" %}
-{% from "widgets/chat.html" import chat_list with context %}
+{% from "widgets/chat.html" import chat_list, display_current_chat with context %}
 
 {% block title %}Main{% endblock %}
 {% block additional_style %}
@@ -10,7 +10,7 @@
 <div class="container">
 
     <div class="sidebar">
-        <button>New chat</button>
+        <button onclick="newChat()">New chat</button>
 
         {{ chat_list(chats) }}
           <!-- bottom -->
@@ -18,12 +18,7 @@
     </div>
 
     <div class="chat">
-        <div class="messages">
-            <div class="message-left">Hi!</div>
-            <div class="message-right">Hiya!</div>
-            <div class="message-left">How's it going?</div>
-            <div class="message-right">Good, and ya?</div>
-        </div>
+        {{ display_current_chat(current_chat) }}
 
         <div class="input-area">
             <input type="text" placeholder="Ask me something...">
@@ -33,6 +28,10 @@
 </div>
 
 <script>
+  function newChat() {
+      window.location.href = "/";
+  };
+
   document.getElementById("logout-btn").addEventListener("click", async () => {
   try {
     const response = await fetch("/logout", {

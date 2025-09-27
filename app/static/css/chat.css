@@ -21,6 +21,21 @@ body {
   padding: 10px;
 }
 
+.chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.chat-list button {
+    border: 0;
+    text-align: left;
+}
+
+.chat-list button:hover {
+    background: #bbb
+}
+
 .sidebar-top {
   display: flex;
   flex-direction: column;

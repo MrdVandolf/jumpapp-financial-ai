@@ -18,10 +18,6 @@ class BaseConnector(ABC):
         return f"{self.driver}://{self.user}:{self.password}@{self.host}:{self.port}"
 
     @abstractmethod
-    async def create_pool(self):
-        raise NotImplementedError()
-
-    @abstractmethod
     @asynccontextmanager
     async def connect(self):
         raise NotImplementedError

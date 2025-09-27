@@ -14,7 +14,8 @@ MIGRATIONS = (
     );""",
     """create table if not exists chats (
        id serial primary key, 
-       user_id integer references users(id)
+       user_id integer references users(id),
+       name text not null
     );""",
     """create table if not exists messages (
        id serial primary key, 

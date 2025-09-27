@@ -1,0 +1,7 @@
+{% macro chat_list(chats) %}
+  <div class="chat-list">
+    {% for chat in chats %}
+      <p>{{ chat.name }}</p>
+    {% endfor %}
+  </div>
+{% endmacro %}

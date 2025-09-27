@@ -20,31 +20,24 @@ class PostgresConnector(BaseConnector):
         self.port = config["POSTGRES_PORT"]
         self.db = config["POSTGRES_DB"]
         self.driver = "postgres"
-        self.pool: aiopg.Pool|None = None
 
     @property
     def dsn_db(self) -> str:
         return f"{self.dsn}/{self.db}"
 
-    async def create_pool(self):
-        self.pool = await aiopg.create_pool(dsn=self.dsn_db)
-
     @asynccontextmanager
-    async def connect(self):
-        if not self.pool:
-            await self.create_pool()
-
-        async with (await self.pool.acquire()) as connection:
+    async def connect(self, dsn):
+        async with aiopg.connect(dsn=dsn) as connection:
             yield connection
 
     @asynccontextmanager
-    async def get_cursor(self):
-        async with self.connect() as connection:
+    async def get_cursor(self, dsn):
+        async with self.connect(dsn) as connection:
             async with (await connection.cursor(cursor_factory=RealDictCursor)) as cursor:
                 yield cursor
 
     async def execute(self, query, values=None, result=None):
-        async with self.get_cursor() as cursor:
+        async with self.get_cursor(self.dsn_db) as cursor:
             await cursor.execute(query, values)
             if result == "fetchall":
                 return await cursor.fetchall()
@@ -52,10 +45,9 @@ class PostgresConnector(BaseConnector):
                 return await cursor.fetchone()
 
     async def create_database(self):
-        async with aiopg.connect(dsn=self.dsn) as connection:
-            async with connection.cursor() as cursor:
-                try:
-                    await cursor.execute(f"CREATE DATABASE {self.db}")
-                except DuplicateDatabase:
-                    # OK. means database is already in place
-                    return
+        async with self.get_cursor(self.dsn) as cursor:
+            try:
+                await cursor.execute(f"CREATE DATABASE {self.db}")
+            except DuplicateDatabase:
+                # OK. means database is already in place
+                return

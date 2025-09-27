@@ -20,6 +20,7 @@ class JWTSessionMiddleware(BaseHTTPMiddleware):
         if not data.success:
             return False
 
+        self.user = data.user
         return True
 
     async def dispatch(self, request: Request, call_next):
@@ -37,6 +38,7 @@ class JWTSessionMiddleware(BaseHTTPMiddleware):
             # for everything else - check that jwt is present and valid
             if not await self.__check_jwt():
                 return RedirectResponse(url="/login")
+            request.app.user = self.user
             # jwt is present and valid - proceed
 
         return await call_next(request)

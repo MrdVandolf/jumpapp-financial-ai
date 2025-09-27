@@ -34,7 +34,7 @@ class JWTSessionMiddleware(BaseHTTPMiddleware):
             if await self.__check_jwt():
                 # jwt is present and valid - cancel request, redirect to main
                 return RedirectResponse(url="/")
-        else:
+        elif 'css' not in path:
             # for everything else - check that jwt is present and valid
             if not await self.__check_jwt():
                 return RedirectResponse(url="/login")

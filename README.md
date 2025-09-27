@@ -43,6 +43,11 @@
 <p>Default value: database</p>
 <p>PostgreSQL database name. If no database with this name is found, a new one will be created</p>
 </li>
+<li>
+<p><strong>JWT_KEY: string</strong></p>
+<p>Default value: secret</p>
+<p>Secret key for JWT tokens</p>
+</li>
 </ul>
 
 

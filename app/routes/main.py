@@ -28,4 +28,4 @@ async def main(request: Request):
     if not data.success:
         return RedirectResponse(url="/login")
 
-    return templates.TemplateResponse("pages/main.html", context={"request": request})
+    return templates.TemplateResponse("pages/chat.html", context={"request": request})

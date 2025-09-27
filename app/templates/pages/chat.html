@@ -1,0 +1,60 @@
+{% extends "index.html" %}
+
+{% block title %}Main{% endblock %}
+{% block additional_style %}
+<link rel="stylesheet" href="{{ url_for('static', path='/css/chat.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="sidebar">
+        <button>New chat</button>
+
+        <div class="chat-list">
+            <p>Chat 1</p>
+            <p>Chat 2</p>
+            <p>Chat 3</p>
+          </div>
+
+          <!-- bottom -->
+          <button id="logout-btn">Exit</button>
+        </div>
+
+    <div class="chat">
+        <div class="messages">
+            <div class="message-left">Hi!</div>
+            <div class="message-right">Hiya!</div>
+            <div class="message-left">How's it going?</div>
+            <div class="message-right">Good, and ya?</div>
+          </div>
+
+        <div class="input-area">
+            <input type="text" placeholder="Ask me something...">
+            <button>Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+  try {
+    const response = await fetch("/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    });
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
+      const errorText = await response.text();
+      alert("Error: " + errorText);
+    }
+  } catch (err) {
+    alert("Connection error: " + err.message);
+  }
+});
+</script>
+{% endblock %}

@@ -7,12 +7,12 @@ from psycopg2.extras import RealDictCursor
 from app.database.base import BaseConnector
 
 
-__all__ = ["PostgresConnector"]
+__all__ = ("PostgresConnector",)
 
 
 class PostgresConnector(BaseConnector):
 
-    def __init__(self, config: dict):
+    def __init__(self, config):
         super().__init__(config)
         self.user = config["POSTGRES_USER"]
         self.password = config["POSTGRES_PASSWORD"]

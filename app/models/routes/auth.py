@@ -12,3 +12,4 @@ class AuthRequest(BaseModel):
 class AuthResponse(BaseModel):
     success: bool
     message: str
+    jwt: str|None = None

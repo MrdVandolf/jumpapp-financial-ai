@@ -1,5 +1,9 @@
+import hashlib
+import hmac
+
 from fastapi import APIRouter, Request, Response
-from app.routes.models.auth import AuthRequest, AuthResponse
+from app.models.routes.auth import AuthRequest, AuthResponse
+from app.models.service.user import UserLoginResponse
 
 
 __all__ = ("AuthRouter",)
@@ -14,10 +18,16 @@ AuthRouter = APIRouter(tags=["auth"], prefix="/auth")
     response_model=AuthResponse,
 )
 async def main(body: AuthRequest, request: Request, response: Response):
-    if body.email != "anisimov.dmitrii.e@gmail.com":
+    app_container = request.app.container
+    user_service = app_container.service_container.user_service()
+
+    login_attempt: UserLoginResponse = await user_service.login_user(email=body.email, password=body.password)
+    if not login_attempt.found:
         response.status_code = 404
         return {"success": False, "message": "No user is registered under this email"}
-    elif body.password != "123":
+
+    if not login_attempt.logged_in:
         response.status_code = 401
         return {"success": False, "message": "Wrong email or password"}
-    return {"success": True, "message": ""}
+
+    return {"success": True, "message": "", "jwt": login_attempt.jwt}

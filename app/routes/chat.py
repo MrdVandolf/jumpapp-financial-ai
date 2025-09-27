@@ -1,5 +1,5 @@
 import logging
-from fastapi import APIRouter, Request, Response
+from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 
 
@@ -13,7 +13,7 @@ ChatRouter = APIRouter(tags=["chat"], prefix="/chat")
     '/{chat_id}',
     status_code=200,
 )
-async def main(chat_id: int, request: Request, response: Response):
+async def main(chat_id: int, request: Request):
     app_container = request.app.container
     templates = app_container.templates()
     chat_repository = app_container.repository_container.chats()
@@ -34,11 +34,13 @@ async def main(chat_id: int, request: Request, response: Response):
     else:
         context["current_chat"] = await chat_repository.read_chat_by_id(chat_id)
 
+    response = templates.TemplateResponse("pages/chat.html", context=context)
     response.set_cookie(
         key="chat_id",
         value=str(chat_id),
         httponly=True,
-        samesite="strict",
+        max_age=3600 * 24 * 5,
+        samesite="lax",
         secure=False,
     )
-    return templates.TemplateResponse("pages/chat.html", context=context)
+    return response

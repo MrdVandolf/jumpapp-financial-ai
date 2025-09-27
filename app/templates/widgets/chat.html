@@ -21,4 +21,14 @@
     {% endif %}
   {% endfor %}
 </div>
+<script>
+    function createMessage(messageText, senderClass) {
+      const div = document.createElement('div');
+      div.className = senderClass;
+      div.textContent = messageText;
+
+      const message_container = document.getElementById('messages');
+      message_container.appendChild(div);
+    };
+</script>
 {% endmacro %}

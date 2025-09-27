@@ -21,8 +21,8 @@
         {{ display_current_chat(current_chat) }}
 
         <div class="input-area">
-            <input type="text" placeholder="Ask me something...">
-            <button>Send</button>
+            <input id="message-content" type="text" placeholder="Ask me something...">
+            <button id="message-send" onclick="sendMessage()">Send</button>
         </div>
     </div>
 </div>
@@ -31,6 +31,36 @@
   function newChat() {
       window.location.href = "/";
   };
+
+  async function sendMessage() {
+    const input_field = document.getElementById("message-content");
+    const payload = JSON.stringify({content: input_field.value});
+    try {
+        const response = await fetch('/message/send', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: payload,
+        });
+        const data = await response.json();
+        if (data.redirect_to) {
+            window.location.href = data.redirect_to;
+            return;
+        } else {
+          window.location.reload();
+        }
+
+    } catch (err) {
+        console.log(err);
+    };
+  };
+
+  const input = document.getElementById("message-content");
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
 
   document.getElementById("logout-btn").addEventListener("click", async () => {
   try {

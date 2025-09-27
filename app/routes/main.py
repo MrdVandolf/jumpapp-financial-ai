@@ -11,7 +11,7 @@ MainRouter = APIRouter(tags=["main"])
     '/',
     status_code=200,
 )
-async def main(request: Request, response: Response):
+async def main(request: Request):
     app_container = request.app.container
     templates = app_container.templates()
     chat_repository = app_container.repository_container.chats()
@@ -25,5 +25,6 @@ async def main(request: Request, response: Response):
         "current_chat": [],
     }
 
+    response = templates.TemplateResponse("pages/chat.html", context=context)
     response.delete_cookie(key="chat_id")
-    return templates.TemplateResponse("pages/chat.html", context=context)
+    return response

@@ -1,9 +1,7 @@
-import hashlib
-import hmac
-
 from fastapi import APIRouter, Request, Response
 from app.models.routes.auth import AuthRequest, AuthResponse
 from app.models.service.user import UserLoginResponse
+from app.constants import DEFAULT_JWT_COOKIE, DEFAULT_JWT_LIFETIME
 
 
 __all__ = ("AuthRouter",)
@@ -30,4 +28,12 @@ async def main(body: AuthRequest, request: Request, response: Response):
         response.status_code = 401
         return {"success": False, "message": "Wrong email or password"}
 
-    return {"success": True, "message": "", "jwt": login_attempt.jwt}
+    response.set_cookie(
+        key=DEFAULT_JWT_COOKIE,
+        value=login_attempt.jwt,
+        httponly=True,
+        max_age=DEFAULT_JWT_LIFETIME,
+        samesite="strict",
+        secure=False,
+    )
+    return {"success": True, "message": ""}

@@ -11,3 +11,8 @@ class UsersRepository(BaseRepository):
         query = "select * from users where email=%(email)s;"
         model = await self.connector.execute(query, {"email": email}, result="fetchone")
         return UserModel(**model) if model else None
+
+    async def find_by_id(self, _id: int) -> UserModel|None:
+        query = "select * from users where id=%(id)s;"
+        model = await self.connector.execute(query, {"id": _id}, result="fetchone")
+        return UserModel(**model) if model else None

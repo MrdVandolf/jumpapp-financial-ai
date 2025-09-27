@@ -13,3 +13,6 @@ LOGGER_LEVELS = {
     "warning": logging.WARNING,
     "error": logging.ERROR,
 }
+
+DEFAULT_JWT_COOKIE = "4cc355"
+DEFAULT_JWT_LIFETIME = 3600  # in seconds

@@ -40,6 +40,8 @@
     };
     input_field.value = "";
     const payload = JSON.stringify({content: text_data});
+    createMessage(text_data, "message-right");
+    const message_left = createMessage("Waiting for response...", "message-left");
     try {
         const response = await fetch('/message/send', {
             method: 'POST',
@@ -51,10 +53,8 @@
             window.location.href = data.redirect_to;
             return;
         } else {
-          createMessage(text_data, "message-right");
-
+          message_left.textContent = data["message"];
         }
-
     } catch (err) {
         console.log(err);
     };

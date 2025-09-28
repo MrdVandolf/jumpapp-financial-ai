@@ -11,3 +11,4 @@ class MessageSendRequest(BaseModel):
 class MessageSendResponse(BaseModel):
     success: bool = False
     redirect_to: str|None = None
+    message: str|None = None

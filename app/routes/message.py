@@ -1,7 +1,7 @@
 import logging
+import asyncio
 
 from fastapi import APIRouter, Request, Response
-from fastapi.responses import RedirectResponse
 from app.models.routes.message import MessageSendRequest, MessageSendResponse
 from app.models.data.chats import ChatModel
 
@@ -17,7 +17,7 @@ MessageRouter = APIRouter(tags=["message"], prefix="/message")
     status_code=200,
     response_model=MessageSendResponse,
 )
-async def main(message_request: MessageSendRequest, request: Request, response: Response):
+async def main(message_request: MessageSendRequest, request: Request):
     app_container = request.app.container
     chat_repository = app_container.repository_container.chats()
     user = request.app.user
@@ -36,5 +36,12 @@ async def main(message_request: MessageSendRequest, request: Request, response: 
         return MessageSendResponse()
 
     await chat_repository.write_user_message(chat.id, message_request.content)
+    await asyncio.sleep(5)
+    message_text = "Здарова"
+    await chat_repository.write_ai_message(chat.id, message_text)
 
-    return MessageSendResponse(success=True, redirect_to=f"/chat/{chat.id}" if not chat_id else None)
+    return MessageSendResponse(
+        success=True,
+        message=message_text,
+        redirect_to=f"/chat/{chat.id}" if not chat_id else None
+    )

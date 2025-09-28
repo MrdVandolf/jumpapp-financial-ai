@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  jump_postgres:
+    image: postgres:17
+    container_name: jump_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5433:5432
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+
+  jump_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jump_web
+    restart: unless-stopped
+    depends_on:
+      - jump_postgres
+    volumes:
+      - ./app:/jump/app
+      - ./logs:/jump/logs
+    ports:
+      - 80:${APP_PORT}

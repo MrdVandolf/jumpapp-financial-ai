@@ -18,7 +18,7 @@ class AppContainer(containers.DeclarativeContainer):
 
     templates = providers.Singleton(
         Jinja2Templates,
-        directory="templates",
+        directory="app/templates",
     )
 
     postgres_container = providers.Container(

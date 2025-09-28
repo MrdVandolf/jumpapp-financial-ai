@@ -40,6 +40,6 @@ def create_app(
         app.include_router(router)
 
     # static wiring
-    app.mount("/static", StaticFiles(directory="static"), name="static")
+    app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
     return app

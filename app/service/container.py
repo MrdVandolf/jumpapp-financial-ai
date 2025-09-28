@@ -1,5 +1,6 @@
 from dependency_injector import containers, providers
 from app.service.user import UserService
+from app.service.ai import AiService
 
 
 __all__ = ("ServiceContainer",)
@@ -13,4 +14,8 @@ class ServiceContainer(containers.DeclarativeContainer):
         UserService,
         config=config,
         repository_container=repository_container,
+    )
+    ai_service = providers.Factory(
+        AiService,
+        config=config,
     )

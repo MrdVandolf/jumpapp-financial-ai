@@ -20,6 +20,7 @@ MessageRouter = APIRouter(tags=["message"], prefix="/message")
 async def main(message_request: MessageSendRequest, request: Request):
     app_container = request.app.container
     chat_repository = app_container.repository_container.chats()
+    ai_service = app_container.service_container.ai_service()
     user = request.app.user
 
     cookies = request.cookies
@@ -36,8 +37,9 @@ async def main(message_request: MessageSendRequest, request: Request):
         return MessageSendResponse()
 
     await chat_repository.write_user_message(chat.id, message_request.content)
-    await asyncio.sleep(5)
-    message_text = "Здарова"
+
+    message_text = await ai_service.make_request(message_request.content)
+
     await chat_repository.write_ai_message(chat.id, message_text)
 
     return MessageSendResponse(

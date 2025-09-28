@@ -48,6 +48,16 @@
 <p>Default value: secret</p>
 <p>Secret key for JWT tokens</p>
 </li>
+<li>
+<p><strong>OPENAI_TOKEN: string</strong></p>
+<p>Default value: [empty]</p>
+<p>API token for OpenAI. Possibly you can go without it</p>
+</li>
+<li>
+<p><strong>OPENAI_MODEL: string</strong></p>
+<p>Default value: gpt-5</p>
+<p>OpenAI model to use. If not model is set, gpt-5 will be used by default</p>
+</li>
 </ul>
 
 

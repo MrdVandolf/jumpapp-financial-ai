@@ -7,10 +7,11 @@ __all__ = ("postgres_migrate",)
 MIGRATIONS = (
     """create table if not exists users (
        id serial primary key, 
-       email text not null,
-       hash text not null,
-       salt text not null,
-       hubspot text
+       email text not null unique,
+       hash text,
+       salt text,
+       hubspot text,
+       google_id text
     );""",
     """create table if not exists chats (
        id serial primary key, 

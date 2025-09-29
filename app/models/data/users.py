@@ -7,6 +7,7 @@ __all__ = ("UserModel",)
 class UserModel(BaseModel):
     id: int
     email: str
-    hash: str
-    salt: str
+    google_id: str|None = None
+    hash: str|None = ""
+    salt: str|None = ""
     hubspot: str|None = None

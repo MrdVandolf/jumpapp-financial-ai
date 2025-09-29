@@ -35,7 +35,14 @@ class UserService:
         except (jwt.InvalidSignatureError, jwt.InvalidAlgorithmError):
             return {}
 
-    async def login_user(self, email, password: str|None = None, by_google: bool = False, google_id: str|None = None) -> UserLoginResponse:
+    async def login_user(
+        self,
+        email,
+        password: str|None = None,
+        by_google: bool = False,
+        google_id: str|None = None,
+        refresh_token: str|None = None,
+    ) -> UserLoginResponse:
         # registration is disallowed for the sake of testing and demonstration. Only pre-registered users are allowed to login
         user: UserModel|None = await self.user_repo.find_by_email(email)
         if not user:
@@ -51,7 +58,10 @@ class UserService:
         else:
             await self.user_repo.upsert_google(email, google_id)
 
-        jwt_token = self.__generate_jwt({"uid": user.id}, self.config["JWT_KEY"])
+        jwt_data = {"uid": user.id}
+        if refresh_token:
+            jwt_data["refresh_token"] = refresh_token
+        jwt_token = self.__generate_jwt(jwt_data, self.config["JWT_KEY"])
         return UserLoginResponse(**{"found": True, "logged_in": True, "user": user, "jwt": jwt_token})
 
     async def validate_user_jwt(self, jwt_token: str) -> UserValidateJWTResponse:

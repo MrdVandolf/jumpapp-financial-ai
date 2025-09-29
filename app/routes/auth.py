@@ -57,13 +57,13 @@ async def google_callback(request: Request, response: Response):
     app_container = request.app.container
     google_service = app_container.service_container.google_service()
     user_service = app_container.service_container.user_service()
-    id_info = await google_service.authorize_access_token(request)
+    id_info, refresh_token = await google_service.authorize_access_token(request)
 
     sub = id_info.get("sub")
     email = id_info.get("email")
-    name = id_info.get("name")
+    # name = id_info.get("name")
 
-    login_attempt: UserLoginResponse = await user_service.login_user(email=email, by_google=True, google_id=sub)
+    login_attempt: UserLoginResponse = await user_service.login_user(email=email, by_google=True, google_id=sub, refresh_token=refresh_token)
     if not login_attempt.found:
         response.status_code = 404
         return {"success": False, "message": "No user is registered under this email"}

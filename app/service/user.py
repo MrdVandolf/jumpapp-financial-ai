@@ -35,17 +35,18 @@ class UserService:
         except (jwt.InvalidSignatureError, jwt.InvalidAlgorithmError):
             return {}
 
-    async def login_user(self, email, password) -> UserLoginResponse:
+    async def login_user(self, email, password: str|None = None, by_google: bool = False) -> UserLoginResponse:
         user: UserModel|None = await self.user_repo.find_by_email(email)
         if not user:
             return UserLoginResponse(**{"found": False, "logged_in": False})
 
-        logged_in = self.__compare_password(
-            self.__hash_password(password, user.salt),
-            user.hash,
-        )
-        if not logged_in:
-            return UserLoginResponse(**{"found": True, "logged_in": False})
+        if not by_google:
+            logged_in = self.__compare_password(
+                self.__hash_password(password, user.salt),
+                user.hash,
+            )
+            if not logged_in:
+                return UserLoginResponse(**{"found": True, "logged_in": False})
 
         jwt_token = self.__generate_jwt({"uid": user.id}, self.config["JWT_KEY"])
         return UserLoginResponse(**{"found": True, "logged_in": True, "user": user, "jwt": jwt_token})

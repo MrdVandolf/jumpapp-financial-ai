@@ -1,6 +1,7 @@
 import fastapi
 from contextlib import asynccontextmanager
 from starlette.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
 
 from app.routes import Routers
 from app.middlewares import Middlewares
@@ -34,6 +35,7 @@ def create_app(
     # middleware wiring
     for middleware in Middlewares:
         app.add_middleware(middleware)
+    app.add_middleware(SessionMiddleware, secret_key=config["SESSION_KEY"], same_site="lax", https_only=False)
 
     # route wiring
     for router in Routers:

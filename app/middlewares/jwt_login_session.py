@@ -29,7 +29,7 @@ class JWTSessionMiddleware(BaseHTTPMiddleware):
         self.cookies = request.cookies
         path = request.url.path.rstrip("/")
 
-        if path in ("/login", "/auth"):
+        if path in ("/login", "/auth", "/auth/google/in", "/auth/google/callback"):
             # for login and auth - check that jwt is NOT present or invalid
             if await self.__check_jwt():
                 # jwt is present and valid - cancel request, redirect to main

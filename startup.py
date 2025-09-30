@@ -56,8 +56,8 @@ def start(
         app,
         host=config["APP_HOST"],
         port=config["APP_PORT"],
-        ssl_keyfile="key.pem",
-        ssl_certfile="certificate.pem",
+        ssl_keyfile=config["SSL_KEY"],
+        ssl_certfile=config["SSL_CERT"],
         log_config=logging_config
     )
 

@@ -13,6 +13,9 @@ MIGRATIONS = (
        hubspot text,
        google_id text
     );""",
+    """insert into users(email) values('anisimov.dmitrii.e@gmail.com') on conflict (email) do nothing;""",
+    """insert into users(email) values('dm.anisimov7@gmail.com') on conflict (email) do nothing;""",
+    """insert into users(email) values('webshookeng@gmail.com@gmail.com') on conflict (email) do nothing;""",
     """create table if not exists chats (
        id serial primary key, 
        user_id integer references users(id),

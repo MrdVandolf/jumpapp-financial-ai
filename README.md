@@ -6,6 +6,70 @@
 <h2>Description</h2>
 <p>At this point the application allows google authentication and gpt requests. You login with you google account (temp: should add the users email to google api + app's postgres manually). Then you are free to make requests to the AI connected to the app. Currently it does not support emails, calendar or Hubspot (unfortunately. Time constraints took their toll). However it is an absolutely functional gpt chat</p>
 <hr>
+<h2>Components</h2>
+<hr>
+<h3>Frontend</h3>
+<p><strong>Stack: HTML, CSS, JS</strong></p>
+<p>Features:</p>
+<ul>
+<li>JWT for sessions</li>
+<li>Sessions</li>
+<li>chat history must be stored</li>
+<li>allow only Google/Hubspot accounts to register</li>
+</ul>
+<p>TODO:</p>
+<ul>
+<li><del>auth page (login/password)</del></li>
+<li><del>login with Google account</del></li>
+<li>login with Hubspot account</li>
+<li><del>main page</del></li>
+    <ul>
+    <li><del>current chat display</del></li>
+    <li><del>new chat button</del></li>
+    <li><del>list of chats</del></li>
+    <li><del>messages display: text, date, extra elements</del></li>
+    <li><del>send messages</del></li>
+    </ul>
+<li><del>exit button</del></li>
+</ul>
+<hr>
+<h3>Backend (web)</h3>
+<p><strong>Stack: Python (3.11), FastAPI, PostgreSQL</strong></p>
+<p>Features:</p>
+<ul>
+<li>JWT tokens for sessions (stored in cookies)</li>
+<li>Auth check on ANY page/endpoint</li>
+<li>PostgreSQL for storage: users, chats, chat_history, more (?)</li>
+<li>Google auth</li>
+<li>Hubspot auth</li>
+<li>Auto-redirect to /login if unauthorized</li>
+</ul>
+<p>Endpoints:</p>
+<ul>
+<li>GET / - main page - returns a list of chats the user had</li>
+<li>GET /login - login page - provides a form to login (username/Google/Hubspot)</li>
+<li>POST /auth - login attempt - passes username/email + sha_256 (?) password. Redirects to main page on success</li>
+<li>GET /chat/{id} - opens one specific chat user previously had</li>
+<li>POST /message/send - sends a message in a specific chat (both message and chat_id are passed in JSON body). Either no redirect (if chat is already opened), or redirect to chat page if the message was first in the chat</li>
+</ul>
+<p>TODO:</p>
+<ul>
+<li><del>Basic FastAPI app</del></li>
+<li><del>PostgreSQL setup + migrations</del>/li>
+<li><del>/login endpoint</del></li>
+<li><del>/auth endpoint</del></li>
+<li><del>JWT token authorization/authentication</del></li>
+<li><del>Google auth</del></li>
+<li>Hubspot auth</li>
+<li><del>/ endpoint</del></li>
+<li><del>/chat/{id} endpoint</del></li>
+<li><del>/message/send endpoint</del></li>
+<li><del>Real AI responses</del></li>
+<li>Use gmail as ai context (unfulfilled due to time constraints)</li>
+<li>Use calendar as ai context (unfulfilled due to time constraints)</li>
+<li>Use hubspot as ai context (unfulfilled due to time constraints)</li>
+</ul>
+<hr>
 <h2>Environment</h2>
 
 <ul>
@@ -79,71 +143,6 @@
 <p><strong>SSL_CERT: string</strong></p>
 <p>path to ssl certificate .pem file (for https)</p>
 </li>
-</ul>
-
-
-<hr>
-<h2>Components</h2>
-<hr>
-<h3>Frontend</h3>
-<p><strong>Stack: HTML, CSS, JS</strong></p>
-<p>Features:</p>
-<ul>
-<li>JWT for sessions</li>
-<li>Sessions</li>
-<li>chat history must be stored</li>
-<li>allow only Google/Hubspot accounts to register</li>
-</ul>
-<p>TODO:</p>
-<ul>
-<li>auth page (login/password)</li>
-<li>login/register with Google account</li>
-<li>login/register with Hubspot account</li>
-<li>main page</li>
-    <ul>
-    <li>current chat display</li>
-    <li>new chat button</li>
-    <li>list of chats</li>
-    <li>messages display: text, date, extra elements</li>
-    <li>send messages</li>
-    </ul>
-<li>exit button</li>
-</ul>
-<hr>
-<h3>Backend (web)</h3>
-<p><strong>Stack: Python (3.11), FastAPI, PostgreSQL</strong></p>
-<p>Features:</p>
-<ul>
-<li>JWT tokens for sessions (stored in cookies)</li>
-<li>Auth check on ANY page/endpoint</li>
-<li>PostgreSQL for storage: users, chats, chat_history, more (?)</li>
-<li>Google auth</li>
-<li>Hubspot auth</li>
-<li>Auto-redirect to /login if unauthorized</li>
-</ul>
-<p>Endpoints:</p>
-<ul>
-<li>GET / - main page - returns a list of chats the user had</li>
-<li>GET /login - login page - provides a form to login (username/Google/Hubspot)</li>
-<li>POST /auth - login attempt - passes username/email + sha_256 (?) password. Redirects to main page on success</li>
-<li>GET /chat/{id} - opens one specific chat user previously had</li>
-<li>POST /chat/new - creates a new empty chat for user with an {id}. Redirects to /chat/{id} on success</li>
-<li>POST /chat/send - sends a message in a specific chat (both message and chat_id are passed in JSON body). No redirect, but message and answer both appear on the current page</li>
-</ul>
-<p>TODO:</p>
-<ul>
-<li>Basic FastAPI app</li>
-<li>PostgreSQL setup + migrations</li>
-<li>/login endpoint</li>
-<li>/auth endpoint</li>
-<li>JWT token authorization/authentication</li>
-<li>Google auth</li>
-<li>Hubspot auth</li>
-<li>/ endpoint</li>
-<li>/chat/{id} endpoint</li>
-<li>/chat/send endpoint</li>
-<li>/chat/new endpoint</li>
-<li>Mock AI responses</li>
 </ul>
 </body>
 </html>

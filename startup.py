@@ -52,7 +52,14 @@ def start(
         app_container=app_container,
         execute_migrations=execute_migrations,
     )
-    uvicorn.run(app, host=config["APP_HOST"], port=config["APP_PORT"], log_config=logging_config)
+    uvicorn.run(
+        app,
+        host=config["APP_HOST"],
+        port=config["APP_PORT"],
+        ssl_keyfile="key.pem",
+        ssl_certfile="certificate.pem",
+        log_config=logging_config
+    )
 
 
 if __name__ == "__main__":

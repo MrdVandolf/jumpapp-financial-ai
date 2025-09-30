@@ -41,7 +41,7 @@
     input_field.value = "";
     const payload = JSON.stringify({content: text_data});
     createMessage(text_data, "message-right");
-    const message_left = createMessage("Waiting for response...", "message-left");
+    const message_left = createMessage("Waiting for response. It may take some time, until gpt gives an answer...", "message-left");
     try {
         const response = await fetch('/message/send', {
             method: 'POST',

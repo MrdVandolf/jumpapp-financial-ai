@@ -16,4 +16,6 @@ EXPOSE 8080
 
 COPY ./startup.py ./startup.py
 COPY ./.env ./.env
+COPY ./certificate.pem ./certificate.pem
+COPY ./key.pem ./key.pem
 CMD ["python", "-m", "startup", "--env", ".env", "--log-level", "debug", "--execute-migrations"]

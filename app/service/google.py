@@ -6,6 +6,7 @@ __all__ = ("GoogleService",)
 
 
 class GoogleService:
+    # TODO: import the letters from gmail, use embedding + chunks, save it to pgvector use them as context for AI on requests
 
     def __init__(self, config):
         self.config = config

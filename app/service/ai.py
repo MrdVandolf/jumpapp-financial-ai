@@ -15,6 +15,7 @@ class AiService:
         self.ai = AsyncOpenAI(**args)
 
     async def make_request(self, message: str):
+        # TODO: make a cache of separate AI sessions for each user to properly store the context, previous requests and history
         response = await self.ai.responses.create(
             model=self.model,
             input=message,

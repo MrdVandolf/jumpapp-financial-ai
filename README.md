@@ -3,7 +3,8 @@
 
 <h1>Financial AI agent</h1>
 <hr>
-<h2>Description: WIP</h2>
+<h2>Description</h2>
+<p>At this point the application allows google authentication and gpt requests. You login with you google account (temp: should add the users email to google api + app's postgres manually). Then you are free to make requests to the AI connected to the app. Currently it does not support emails, calendar or Hubspot (unfortunately. Time constraints took their toll). However it is an absolutely functional gpt chat</p>
 <hr>
 <h2>Environment</h2>
 
@@ -57,6 +58,26 @@
 <p><strong>OPENAI_MODEL: string</strong></p>
 <p>Default value: gpt-5</p>
 <p>OpenAI model to use. If not model is set, gpt-5 will be used by default</p>
+</li>
+<li>
+<p><strong>GOOGLE_CLIENT_ID: string</strong></p>
+<p>Your Google Cloud client id for their API access</p>
+</li>
+<li>
+<p><strong>GOOGLE_CLIENT_SECRET: string</strong></p>
+<p>Your Google Cloud client secret for their API access</p>
+</li>
+<li>
+<p><strong>GOOGLE_REDIRECT_URL: string</strong></p>
+<p>Your own endpoint, where Google auth api should make a callback to</p>
+</li>
+<li>
+<p><strong>SSL_KEY: string</strong></p>
+<p>path to ssl key .pem file (for https)</p>
+</li>
+<li>
+<p><strong>SSL_CERT: string</strong></p>
+<p>path to ssl certificate .pem file (for https)</p>
 </li>
 </ul>
 
